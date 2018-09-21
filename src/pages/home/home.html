@@ -1,0 +1,43 @@
+<meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *">
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      VR App
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="home">
+    
+  <button ion-button (click)="takePicture()">Take a Picture</button>
+  <img [src]="DomSanitizer.bypassSecurityTrustUrl(base64Image)" *ngIf="base64Image" style="width: 100px; height:100px"/>
+  <div id="result"></div>
+  <!-- <ion-list>
+      <ion-item *ngfor="let eachClass of imageClasses">
+            {{eachClass.class}}
+      </ion-item>
+  </ion-list> -->
+  </ion-content>
+
+  <!-- <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>
+          Images
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    
+    <ion-content padding>
+    
+      <ion-card *ngFor="let photo of photos">
+        <img src="{{photo}}" />
+      </ion-card>
+    
+    </ion-content>
+    
+    <ion-footer>
+      <ion-toolbar>
+        <button ion-button block (click)="presentActionSheet()">Select Pictures</button>
+      </ion-toolbar>
+    </ion-footer>
+     -->

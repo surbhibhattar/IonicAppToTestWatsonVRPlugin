@@ -1,0 +1,7 @@
+{
+  "name": "IonicAppToTestWatsonVRPlugin",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
