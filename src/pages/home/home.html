@@ -1,16 +1,10 @@
-<meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *">
-<ion-header>
-  <ion-navbar>
-    <ion-title>
-      VR App
-    </ion-title>
-  </ion-navbar>
-</ion-header>
-
 <ion-content class="home">
-    
-  <button ion-button (click)="takePicture()">Take a Picture</button>
-  <img [src]="DomSanitizer.bypassSecurityTrustUrl(base64Image)" *ngIf="base64Image" style="width: 100px; height:100px"/>
+  <div id="footer">
+      <button ion-button (click)="takePicture()" id="btn-camera">Take picture</button>
+      <button ion-button (click)="chooseFromGallery()" id="btn-camera">Pick from gallery</button>
+  </div>
+ 
+  <img [src]="DomSanitizer.bypassSecurityTrustUrl(base64Image)" *ngIf="base64Image" style="width: 100%; height:100%"/>
   <div id="result"></div>
   <!-- <ion-list>
       <ion-item *ngfor="let eachClass of imageClasses">

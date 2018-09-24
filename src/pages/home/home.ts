@@ -3,6 +3,8 @@ import { NavController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DomSanitizer } from '@angular/platform-browser';
 import { normalizeURL } from 'ionic-angular';
+import { ImagePicker } from '@ionic-native/image-picker';
+
 declare var WatsonVR: any;
 @Component({
   selector: 'page-home',
@@ -10,7 +12,7 @@ declare var WatsonVR: any;
 })
 export class HomePage {
   public base64Image: string;
-  constructor(public navCtrl: NavController, private camera: Camera, private DomSanitizer: DomSanitizer ,private ngZone:NgZone) {
+  constructor(public navCtrl: NavController, private camera: Camera, private DomSanitizer: DomSanitizer ,private ngZone:NgZone, private imagePicker: ImagePicker) {
   }
   takePicture(): void{
       const options: CameraOptions = {
@@ -62,6 +64,39 @@ export class HomePage {
       
     }
   
+  chooseFromGallery(): void{
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      targetWidth: 1000,
+      targetHeight: 1000,
+      saveToPhotoAlbum: true
+    }
+
+    this.imagePicker.getPictures(options).then((results) => {
+      
+          console.log('Image URI: ' + results[0]);
+          WatsonVR.classify('version', 'apikey', results[0] ,function(success){
+            console.log(success);
+            let result = JSON.parse(success);
+            let classes = result.images[0].classifiers[0].classes;
+            let array = [];
+            for(let i=0;i<classes.length;i++){
+              if(classes[i].score >= 0.6) {
+                let div = '<div>' + classes[i].class + ' ' + ((classes[i].score)*100).toFixed(1) + '%</div>';
+                array.push(div);
+              }
+            }
+            document.getElementById("result").innerHTML = array.toString();
+            
+          }, function(error){
+            console.log('error: ', error);
+            alert('ERROR: '+error);
+          })
+      
+    }, (err) => {console.log(err);});
+  }
+
   fetchResults(result): any[]{
     let classes = result.images[0].classifiers[0].classes;
     let array = [];
